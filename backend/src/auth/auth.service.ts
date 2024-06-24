@@ -9,6 +9,7 @@ import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/schemas/users.schema';
 import { SignInDto } from './dto/signInDto.dto';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -42,5 +43,21 @@ export class AuthService {
     const hash = await bcrypt.hash(createUserDto.password, 10);
     createUserDto.password = hash;
     return await this.usersService.create(createUserDto);
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.usersService.findAll();
+  }
+
+  async findOne(email: string): Promise<User> {
+    return await this.usersService.findOne(email);
+  }
+
+  async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return await this.usersService.update(email, updateUserDto);
+  }
+
+  async delete(email: string): Promise<void> {
+    return await this.usersService.delete(email);
   }
 }
