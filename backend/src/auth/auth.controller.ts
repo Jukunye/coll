@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { SkipAuth } from './constants';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { SignInDto } from './dto/signInDto.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,8 +26,8 @@ export class AuthController {
   @SkipAuth()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  signIn(@Body() signInDto: SignInDto) {
+    return this.authService.signIn(signInDto);
   }
 
   @Get('profile')
