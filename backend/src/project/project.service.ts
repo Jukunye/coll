@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './schemas/project.schema';
 import { Model } from 'mongoose';
@@ -31,8 +31,21 @@ export class ProjectService {
     id: string,
     updateProjectDto: UpdateProjectDto
   ): Promise<Project> {
-    return this.projectModel
+    const updatedProject = await this.projectModel
       .findByIdAndUpdate(id, updateProjectDto, { new: true })
       .exec();
+    if (!updatedProject) {
+      throw new NotFoundException(`Project with id ${id} not found`);
+    }
+
+    return updatedProject;
+  }
+
+  // Delete
+  async deleteProject(id: string): Promise<void> {
+    const result = await this.projectModel.findByIdAndDelete(id).exec();
+    if (!result) {
+      throw new NotFoundException(`Project with id ${id} not found`);
+    }
   }
 }
