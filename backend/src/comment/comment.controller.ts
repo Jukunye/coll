@@ -1,4 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put
+} from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { Comment } from './schemas/comment.schema';
@@ -12,5 +20,23 @@ export class CommentController {
     @Body() createCommentDto: CreateCommentDto
   ): Promise<Comment> {
     return this.commentService.createComment(createCommentDto);
+  }
+
+  @Get(':id')
+  async findComment(@Param('id') id: string): Promise<Comment> {
+    return this.commentService.getComment(id);
+  }
+
+  @Put(':id')
+  async updateComment(
+    @Param('id') id: string,
+    @Body() updateCommentDto: CreateCommentDto
+  ): Promise<Comment> {
+    return this.commentService.updateComment(id, updateCommentDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    return this.commentService.deleteComment(id);
   }
 }
