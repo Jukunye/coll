@@ -15,6 +15,30 @@ export class Project extends Document {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
   owner: MongooseSchema.Types.ObjectId;
+
+  @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'User' })
+  members: [MongooseSchema.Types.ObjectId];
+
+  @Prop()
+  tags: string[];
+
+  @Prop()
+  resources: string[];
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);
+
+// Pre-save middleware to update the timestamps
+ProjectSchema.pre('save', function (next) {
+  if (!this.createdAt) {
+    this.createdAt = new Date();
+  }
+  this.updatedAt = new Date();
+  next();
+});
