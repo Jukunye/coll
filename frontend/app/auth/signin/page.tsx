@@ -78,6 +78,9 @@ function SignIn() {
 
         <Button type="submit">Login</Button>
       </form>
+      <p>
+        Don&apos;t have an account? <a href="/auth/signup">Create now</a>
+      </p>
     </div>
   );
 }
