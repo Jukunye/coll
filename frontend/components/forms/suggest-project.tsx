@@ -9,9 +9,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../select';
+} from '../ui/select';
 import { SelectLabel } from '@radix-ui/react-select';
-import { Button } from '../button';
+import { Button } from '../ui/button';
 
 type FormValues = {
   title: string;
