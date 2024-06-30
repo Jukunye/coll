@@ -1,11 +1,10 @@
 'use client';
-import { useAuth } from './provider';
+import AppBar from '@/components/AppBar';
 
 export default function Home() {
-  const { user } = useAuth();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <p>Welcome {user?.firstName} </p>
+    <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center justify-between py-6">
+      <AppBar />
     </main>
   );
 }
