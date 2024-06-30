@@ -33,13 +33,13 @@ function SignIn() {
     try {
       const response = await axiosClient.post('/auth/login', user_data);
       localStorage.setItem('ACCESS_TOKEN', response.data.access_token);
-      await updateUser();
+      await updateUser(response.data.access_token);
 
       toast('Login Success!');
 
       setTimeout(() => {
         router.push('/');
-      }, 3000);
+      }, 2000);
     } catch (error) {
       const axiosError = error as AxiosError;
       // Handle the error

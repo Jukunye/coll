@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 
 interface AuthContextType {
-  updateUser: () => Promise<void>;
+  updateUser: (access_token: string) => Promise<void>;
   token: string | null;
   logout: () => void;
   user: any;
@@ -36,12 +36,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const updateUser = async () => {
+  const updateUser = async (access_token: string) => {
+    setToken(access_token);
     try {
-      if (!token) {
-        throw new Error('No token found');
-      }
-
       const res = await axiosClient.get('/auth/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
