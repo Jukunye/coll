@@ -3,6 +3,8 @@ import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { Button } from '../ui/button';
+import { Toaster, toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface IFormInput {
   firstName: string;
@@ -12,6 +14,7 @@ interface IFormInput {
 }
 
 const RegistrationForm: React.FC = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -19,16 +22,19 @@ const RegistrationForm: React.FC = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    // try {
-    //   const response = await axios.post(
-    //     'http://localhost/auth/register',
-    //     data
-    //   );
-    //   console.log('User registered successfully:', response.data);
-    // } catch (error) {
-    //   console.error('Error registering user:', error);
-    // }
-    console.log(data);
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/auth/register',
+        data
+      );
+      toast(`Successfully registered: ${response.data.email}`);
+      setTimeout(() => {
+        router.push('/auth/signin');
+      }, 2000);
+    } catch (error) {
+      console.error('Error registering user:', error);
+      toast('Failed registration');
+    }
   };
 
   return (
@@ -36,11 +42,12 @@ const RegistrationForm: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-4 w-96"
     >
+      <Toaster />
       <div>
         <p className="text-center text-xl font-bold text-slate-800">Sign up</p>
         <p className="text-center text-sm font-light text-slate-600">
           Already have an accout?{' '}
-          <a href="/auth/login" className="font-semibold">
+          <a href="/auth/signin" className="font-semibold">
             Log in
           </a>{' '}
         </p>
