@@ -3,8 +3,10 @@ export class CreateProjectDto {
   readonly description: string;
   readonly owner: string;
   readonly members?: string | string[];
-  readonly tags?: string[];
-  readonly resources?: string[];
+  readonly image: string;
+  readonly language?: string;
+  readonly level?: string;
+  readonly start: string;
   readonly createdAt: string;
   readonly updatedAt: string;
 }

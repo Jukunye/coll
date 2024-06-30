@@ -10,20 +10,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import { SelectLabel } from '@radix-ui/react-select';
 import { Button } from '../ui/button';
+import { useAuth } from '@/app/provider';
+import { Toaster, toast } from 'sonner';
 
 type FormValues = {
   title: string;
   description: string;
   language?: string;
   level?: string;
-  schedule: Date;
+  image?: string;
+  start: Date;
+};
+
+type userId = {
+  _id: string;
 };
 
 const SuggetForm: React.FC = () => {
   const [level, setLevel] = useState<string>('');
   const [language, setLanguage] = useState<string>('');
+  const { user, token } = useAuth();
+
+  const defaultstart = new Date();
+  defaultstart.setDate(defaultstart.getDate() + 14);
+
   const {
     register,
     handleSubmit,
@@ -31,29 +42,38 @@ const SuggetForm: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // try {
-    //   const response = await axios.post('/api/endpoint', data);
-    //   console.log('Response:', response.data);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-    console.log({ ...data, level, language });
+    const projectData = { ...data, level, language, owner: user._id };
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/project',
+        projectData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast('Successfully created!');
+      console.log('Response:', response.data);
+    } catch (error) {
+      toast('Failed to create!');
+      console.error('Error:', error);
+    }
   };
 
-  const defaultSchedule = new Date();
-  defaultSchedule.setDate(defaultSchedule.getDate() + 14);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <Toaster />
       <div className="flex flex-col">
-        <label htmlFor="title" className="text-sm text-slate-500 mb-3">
+        <label htmlFor="title" className="text-sm mb-2">
           Title
         </label>
         <textarea
           id="title"
           placeholder="Enter the title"
           {...register('title', { required: true })}
-          className="max-w-xs border-slate-200 bg-slate-50 placeholder:text-slate-300 focus:outline-none"
+          className="max-w-md border-slate-200 bg-slate-50 rounded-lg p-2 placeholder:text-slate-300 focus:outline-none"
         />
         {errors.title && (
           <span className="text-xs text-gray-300">Title is required</span>
@@ -61,11 +81,11 @@ const SuggetForm: React.FC = () => {
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="description" className="text-sm text-slate-500 mb-3">
+        <label htmlFor="description" className="text-sm mb-2">
           Description
         </label>
         <textarea
-          className="max-w-xs bg-slate-50 placeholder:text-slate-300 focus:outline-none"
+          className="max-w-md bg-slate-50 rounded-lg p-2 placeholder:text-slate-300 focus:outline-none"
           rows={5}
           placeholder="Enter the project description"
           id="description"
@@ -77,64 +97,77 @@ const SuggetForm: React.FC = () => {
           </span>
         )}
       </div>
+      <div className="flex gap-10 sm:gap-20">
+        <div>
+          <label htmlFor="language" className="text-sm">
+            Language
+          </label>
+          <Select onValueChange={setLanguage} defaultValue={language}>
+            <SelectTrigger className="max-w-40 bg-slate-50 text-slate-700 mt-3">
+              <SelectValue placeholder="Select language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+                <SelectItem value="typescript">TypeScript</SelectItem>
+                <SelectItem value="python">Python</SelectItem>
+                <SelectItem value="java">Java</SelectItem>
+                <SelectItem value="csharp">C#</SelectItem>
+                <SelectItem value="ruby">Ruby</SelectItem>
+                <SelectItem value="swift">Swift</SelectItem>
+                <SelectItem value="go">Go</SelectItem>
+                <SelectItem value="kotlin">Kotlin</SelectItem>
+                <SelectItem value="rust">Rust</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div>
-        <label htmlFor="language" className="text-sm text-slate-500">
-          Language
-        </label>
-        <Select onValueChange={setLanguage} defaultValue={language}>
-          <SelectTrigger className="w-64 bg-slate-50 text-slate-700 mt-3">
-            <SelectValue placeholder="Select a programming language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="javascript">JavaScript</SelectItem>
-              <SelectItem value="typescript">TypeScript</SelectItem>
-              <SelectItem value="python">Python</SelectItem>
-              <SelectItem value="java">Java</SelectItem>
-              <SelectItem value="csharp">C#</SelectItem>
-              <SelectItem value="ruby">Ruby</SelectItem>
-              <SelectItem value="swift">Swift</SelectItem>
-              <SelectItem value="go">Go</SelectItem>
-              <SelectItem value="kotlin">Kotlin</SelectItem>
-              <SelectItem value="rust">Rust</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <label htmlFor="level" className="text-sm text-slate-500">
-          Level
-        </label>
-        <Select onValueChange={setLevel} defaultValue={level}>
-          <SelectTrigger className="max-w-64 text-slate-700 bg-slate-50 mt-3 focus:outline-none">
-            <SelectValue placeholder="Select the level of complexity" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="beginner">Beginner</SelectItem>
-              <SelectItem value="intermidiate">Intermediate</SelectItem>
-              <SelectItem value="advance">AdVance</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div>
+          <label htmlFor="level" className="text-sm">
+            Level
+          </label>
+          <Select onValueChange={setLevel} defaultValue={level}>
+            <SelectTrigger className="max-w-40 text-slate-700 bg-slate-50 mt-3 focus:outline-none">
+              <SelectValue placeholder="Select level" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="beginner">Beginner</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
+                <SelectItem value="advanced">Advanced</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="schedule" className="text-sm text-slate-500 mb-3">
-          Schedule
+        <label htmlFor="image" className="text-sm mb-2">
+          Image
+        </label>
+        <input
+          id="image"
+          defaultValue="https://sgame.etsisi.upm.es/pictures/12946.png?1608547866/"
+          {...register('image')}
+          className="text-sm max-w-md border-slate-200 bg-slate-50 rounded-lg p-2 placeholder:text-slate-300 focus:outline-none"
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="start" className="text-sm mb-2">
+          start
         </label>
         <input
           className="w-64 bg-slate-50 text-slate-700 focus:outline-none"
-          id="schedule"
+          id="start"
           type="date"
-          {...register('schedule', { valueAsDate: true })}
-          defaultValue={defaultSchedule.toISOString().split('T')[0]}
+          {...register('start', { valueAsDate: true })}
+          defaultValue={defaultstart.toISOString().split('T')[0]}
         />
       </div>
       <div className="flex-1 mt-4 flex justify-end">
-        <Button type="submit">Submit project</Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );

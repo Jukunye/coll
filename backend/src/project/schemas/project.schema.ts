@@ -20,10 +20,16 @@ export class Project extends Document {
   members: [MongooseSchema.Types.ObjectId];
 
   @Prop()
-  tags: string[];
+  level: string;
 
   @Prop()
-  resources: string[];
+  language: string;
+
+  @Prop()
+  image: string;
+
+  @Prop()
+  start: Date;
 
   @Prop()
   createdAt: Date;
