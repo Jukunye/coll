@@ -19,11 +19,19 @@ export class ProjectService {
 
   // READ
   async getProjects(): Promise<Project[]> {
-    return this.projectModel.find().populate(['owner', 'members']).exec();
+    return this.projectModel
+      .find()
+      .populate('owner', '-password')
+      .populate('members', '-password')
+      .exec();
   }
 
   async getProject(id: string): Promise<Project> {
-    return this.projectModel.findById(id).exec();
+    return this.projectModel
+      .findById(id)
+      .populate('owner', '-password')
+      .populate('members', '-password')
+      .exec();
   }
 
   // UPDATE

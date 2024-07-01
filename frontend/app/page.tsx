@@ -10,7 +10,6 @@ interface Person {
   email: string;
   firstName: string;
   lastName: string;
-  password: string;
   __v: number;
 }
 
@@ -38,12 +37,7 @@ export default function Home() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:3001/project', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('http://localhost:3001/project');
 
       setData(response.data);
       setLoading(false);

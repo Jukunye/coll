@@ -17,7 +17,7 @@ export class UsersService {
 
   // READ
   async findOne(email: string): Promise<UserDocument> {
-    const user = this.userModel.findOne({ email }).exec();
+    const user = this.userModel.findOne({ email }).select('-password').exec();
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
     }
@@ -25,7 +25,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find().select('-password').exec();
   }
 
   // UPDATE
