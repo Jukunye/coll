@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,8 +11,9 @@ import { Button } from './ui/button';
 import SuggetForm from './forms/suggest-project';
 
 function SuggestButton() {
+  const [open, setOpen] = useState<boolean>(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary">Suggest</Button>
       </DialogTrigger>
@@ -23,7 +24,7 @@ function SuggestButton() {
             Fill out information about a project you would like to work on.
           </DialogDescription>
         </DialogHeader>
-        <SuggetForm />
+        <SuggetForm closeDialog={setOpen} />
       </DialogContent>
     </Dialog>
   );

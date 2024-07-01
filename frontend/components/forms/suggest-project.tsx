@@ -27,7 +27,11 @@ type userId = {
   _id: string;
 };
 
-const SuggetForm: React.FC = () => {
+interface ParentProps {
+  closeDialog: (open: boolean) => void;
+}
+
+const SuggetForm: React.FC<ParentProps> = ({ closeDialog }) => {
   const [level, setLevel] = useState<string>('');
   const [language, setLanguage] = useState<string>('');
   const { user, token } = useAuth();
@@ -55,7 +59,9 @@ const SuggetForm: React.FC = () => {
         }
       );
       toast('Successfully created!');
-      console.log('Response:', response.data);
+      setTimeout(() => {
+        closeDialog(false);
+      }, 2000);
     } catch (error) {
       toast('Failed to create!');
       console.error('Error:', error);
@@ -64,7 +70,7 @@ const SuggetForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <Toaster />
+      <Toaster position="top-center" />
       <div className="flex flex-col">
         <label htmlFor="title" className="text-sm mb-2">
           Title
