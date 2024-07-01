@@ -1,14 +1,27 @@
 import React from 'react';
 import { Button } from './ui/button';
 
+type Person = {
+  _id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  __v: number;
+};
+
 type Props = {
-  owner: string;
-  start: string;
-  image: string;
+  _id: string;
   title: string;
   description: string;
+  owner: Person;
+  members?: Person[];
   level?: string;
   language?: string;
+  image: string;
+  start: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 };
 
 const ProjectCard: React.FC<Props> = ({
@@ -20,15 +33,25 @@ const ProjectCard: React.FC<Props> = ({
   level,
   language,
 }) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
   return (
-    <div className="border rounded-md max-w-xs">
+    <div className="border rounded-md w-80 my-4">
       <div className="flex justify-between text-sm px-6 py-3">
-        <p>{owner}</p>
-        <p className="text-xs text-slate-400">{start}</p>
+        <p>
+          {owner.firstName} {owner.lastName}
+        </p>
+        <p className="text-xs text-slate-400">{formatDate(start)}</p>
       </div>
       <img
         src={image}
-        alt={title}
+        alt={'project image'}
         className="max-w-xs h-auto object-cover bg-slate-100"
       />
       <div className="px-6 py-3 text-sm">

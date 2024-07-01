@@ -4,6 +4,7 @@ import SuggestButton from '@/components/suggest-button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAuth } from './provider';
+import ProjectCard from '@/components/project-card';
 
 interface Person {
   _id: string;
@@ -40,25 +41,30 @@ export default function Home() {
       const response = await axios.get('http://localhost:3001/project');
 
       setData(response.data);
-      setLoading(false);
     } catch (error) {
       console.error('Error occured fetching data: ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center py-6">
       <AppBar />
       <SuggestButton />
-      {data.map((project) => (
-        <div key={project._id}>
-          <h2>{project.title} </h2>
-        </div>
-      ))}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        data.map((project) => (
+          <div key={project._id}>
+            <ProjectCard {...project} />
+          </div>
+        ))
+      )}
     </main>
   );
 }
