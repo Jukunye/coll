@@ -17,7 +17,7 @@ export class UsersService {
 
   // READ
   async findOne(email: string): Promise<UserDocument> {
-    const user = this.userModel.findOne({ email }).select('-password').exec();
+    const user = this.userModel.findOne({ email }).exec();
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
     }

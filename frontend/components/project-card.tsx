@@ -52,7 +52,7 @@ const ProjectCard: React.FC<Props> = ({
       <img
         src={image}
         alt={'project image'}
-        className="max-w-xs h-auto object-cover bg-slate-100"
+        className="w-80 h-44 object-cover bg-slate-100"
       />
       <div className="px-6 py-3 text-sm">
         <div className="flex justify-between my-2">

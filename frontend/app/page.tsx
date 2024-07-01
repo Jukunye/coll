@@ -59,11 +59,13 @@ export default function Home() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        data.map((project) => (
-          <div key={project._id}>
-            <ProjectCard {...project} />
-          </div>
-        ))
+        <div className="flex justify-center flex-wrap gap-4">
+          {data.map((project) => (
+            <div key={project._id}>
+              <ProjectCard {...project} />
+            </div>
+          ))}
+        </div>
       )}
     </main>
   );
