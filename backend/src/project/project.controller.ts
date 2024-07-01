@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put
 } from '@nestjs/common';
@@ -44,5 +45,21 @@ export class ProjectController {
   @Delete(':id')
   async deleteProject(@Param('id') id: string) {
     return this.projectService.deleteProject(id);
+  }
+
+  @Patch(':projectId/add-member/:userId')
+  async addMember(
+    @Param('projectId') projectId: string,
+    @Param('userId') userId: string
+  ): Promise<Project> {
+    return this.projectService.addMember(projectId, userId);
+  }
+
+  @Patch(':projectId/remove-member/:userId')
+  async removeMember(
+    @Param('projectId') projectId: string,
+    @Param('userId') userId: string
+  ): Promise<Project> {
+    return this.projectService.removeMember(projectId, userId);
   }
 }

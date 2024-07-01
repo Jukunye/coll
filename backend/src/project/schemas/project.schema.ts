@@ -1,9 +1,5 @@
-// title, description, owner(user ID),
-// members(array of user IDs), tags(array of strings)
-// resources(array of objects), created_at, updated_at
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 
 @Schema()
 export class Project extends Document {
@@ -14,10 +10,10 @@ export class Project extends Document {
   description: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  owner: MongooseSchema.Types.ObjectId;
+  owner: Types.ObjectId;
 
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'User' })
-  members: [MongooseSchema.Types.ObjectId];
+  members: Types.ObjectId[];
 
   @Prop()
   level: string;

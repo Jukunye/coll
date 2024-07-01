@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './schemas/project.schema';
-import { Model } from 'mongoose';
+import { Model, Schema, Types } from 'mongoose';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 
@@ -55,5 +59,36 @@ export class ProjectService {
     if (!result) {
       throw new NotFoundException(`Project with id ${id} not found`);
     }
+  }
+
+  // Add member to a project
+  async addMember(projectId: string, userId: string): Promise<Project> {
+    const project = await this.projectModel.findById(projectId).exec();
+    if (!project) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+    const userObjectId = new Types.ObjectId(userId);
+    if (project.members.includes(userObjectId)) {
+      throw new BadRequestException(
+        `User with id ${userId} is already a member`
+      );
+    }
+    project.members.push(userObjectId);
+    return project.save();
+  }
+
+  // Remove member from project
+  async removeMember(projectId: string, userId: string): Promise<Project> {
+    const project = await this.projectModel.findById(projectId).exec();
+    if (!project) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+    const userObjectId = new Types.ObjectId(userId);
+    const index = project.members.indexOf(userObjectId);
+    if (index === -1) {
+      throw new NotFoundException(`User with id ${userId} is not a member`);
+    }
+    project.members.splice(index, 1);
+    return project.save();
   }
 }
