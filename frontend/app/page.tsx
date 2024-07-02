@@ -33,13 +33,10 @@ export default function Home() {
   const [data, setData] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const { token } = useAuth();
-
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.get('http://localhost:3001/project');
-
       setData(response.data);
     } catch (error) {
       console.error('Error occured fetching data: ', error);
@@ -52,10 +49,14 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const addProjectToState = (newProject: Project) => {
+    setData((prevData) => [...prevData, newProject]);
+  };
+
   return (
     <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center py-6">
       <AppBar />
-      <SuggestButton />
+      <SuggestButton onProjectAdded={addProjectToState} />
       {loading ? (
         <p>Loading...</p>
       ) : (

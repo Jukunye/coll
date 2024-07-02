@@ -18,7 +18,12 @@ export class ProjectService {
   // CREATE
   async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
     const createdProject = new this.projectModel(createProjectDto);
-    return createdProject.save();
+    const savedProject = createdProject.save();
+    return this.projectModel
+      .findById((await savedProject)._id)
+      .populate('owner', '-password')
+      .populate('members', '-password')
+      .exec();
   }
 
   // READ

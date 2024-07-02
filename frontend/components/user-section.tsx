@@ -9,7 +9,9 @@ function UserSection() {
     <div>
       {user ? (
         <div className="flex items-center gap-3">
-          <div>{user.firstName}</div>
+          <div>
+            {user.firstName} {user.lastName}
+          </div>
           <Button onClick={() => logout()} variant="outline">
             Log out
           </Button>

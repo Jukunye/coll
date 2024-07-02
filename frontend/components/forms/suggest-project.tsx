@@ -23,15 +23,35 @@ type FormValues = {
   start: Date;
 };
 
-type userId = {
+interface Person {
   _id: string;
-};
+  email: string;
+  firstName: string;
+  lastName: string;
+  __v: number;
+}
+
+interface Project {
+  _id: string;
+  title: string;
+  description: string;
+  owner: Person;
+  members: Person[];
+  level: string;
+  language: string;
+  image: string;
+  start: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 interface ParentProps {
   closeDialog: (open: boolean) => void;
+  onProjectAdded: (newProject: Project) => void;
 }
 
-const SuggetForm: React.FC<ParentProps> = ({ closeDialog }) => {
+const SuggetForm: React.FC<ParentProps> = ({ closeDialog, onProjectAdded }) => {
   const [level, setLevel] = useState<string>('');
   const [language, setLanguage] = useState<string>('');
   const { user, token } = useAuth();
@@ -46,7 +66,13 @@ const SuggetForm: React.FC<ParentProps> = ({ closeDialog }) => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const projectData = { ...data, level, language, owner: user._id };
+    const projectData = {
+      ...data,
+      level,
+      language,
+      owner: user._id,
+      members: [user._id],
+    };
     try {
       const response = await axios.post(
         'http://localhost:3001/project',
@@ -58,10 +84,10 @@ const SuggetForm: React.FC<ParentProps> = ({ closeDialog }) => {
           },
         }
       );
+      const newProject = response.data;
       toast('Successfully created!');
-      setTimeout(() => {
-        closeDialog(false);
-      }, 2000);
+      closeDialog(false);
+      onProjectAdded(newProject);
     } catch (error) {
       toast('Failed to create!');
       console.error('Error:', error);

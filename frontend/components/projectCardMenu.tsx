@@ -12,7 +12,9 @@ function ProjectCardMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
-        <ElipsisIcon className="size-5" />
+        <Button variant="ghost" size="sm">
+          <ElipsisIcon className="size-5" />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>View</DropdownMenuItem>
