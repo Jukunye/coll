@@ -97,7 +97,7 @@ function JoinButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Toaster />
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           {dialogAction}
         </Button>
