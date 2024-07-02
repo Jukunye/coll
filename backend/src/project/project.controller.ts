@@ -29,6 +29,7 @@ export class ProjectController {
     return this.projectService.getProjects();
   }
 
+  @SkipAuth()
   @Get(':id')
   async getProject(@Param('id') id: string) {
     return this.projectService.getProject(id);
