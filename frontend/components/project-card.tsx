@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import ElipsisIcon from './icons';
 import ProjectCardMenu from './projectCardMenu';
+import { MembersIcon } from './icons';
+import axios from 'axios';
+import { useAuth } from '@/app/provider';
+import JoinButton from './joinButton';
 
 type Person = {
   _id: string;
@@ -16,7 +19,7 @@ type Props = {
   title: string;
   description: string;
   owner: Person;
-  members?: Person[];
+  members: Person[];
   level?: string;
   language?: string;
   image: string;
@@ -27,6 +30,7 @@ type Props = {
 };
 
 const ProjectCard: React.FC<Props> = ({
+  _id,
   owner,
   start,
   image,
@@ -34,7 +38,18 @@ const ProjectCard: React.FC<Props> = ({
   description,
   level,
   language,
+  members: initialMembers,
 }) => {
+  const [members, setMembers] = useState<Person[]>(initialMembers);
+
+  useEffect(() => {
+    // This effect will run whenever `members` changes
+  }, [members]);
+
+  const handleUpdateMembers = (updatedMembers: Person[]) => {
+    setMembers(updatedMembers);
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -43,6 +58,7 @@ const ProjectCard: React.FC<Props> = ({
       day: 'numeric',
     });
   };
+
   return (
     <div className="border rounded-md w-80 my-4">
       <div className="flex items-center justify-between text-sm pl-4 pr-1 py-2">
@@ -71,8 +87,17 @@ const ProjectCard: React.FC<Props> = ({
         <h2 className="text-lg font-semibold">{title}</h2>
         <p className="mt-2 text-slate-500">{description}</p>
       </div>
-      <div className="flex justify-end px-6 pb-4">
-        <Button variant="outline">Join</Button>
+      <div className="flex items-center justify-between px-6 pb-4">
+        <div className="flex items-center">
+          <MembersIcon />
+          <p className="font-light text-sm ml-1">{members.length}</p>
+        </div>
+        <JoinButton
+          title={title}
+          projectId={_id}
+          members={members}
+          onUpdateMembers={handleUpdateMembers}
+        />
       </div>
     </div>
   );

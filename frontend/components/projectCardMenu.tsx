@@ -6,15 +6,13 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Button } from './ui/button';
-import ElipsisIcon from './icons';
+import { ElipsisIcon } from './icons';
 
 function ProjectCardMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <ElipsisIcon className="size-5" />
-        </Button>
+      <DropdownMenuTrigger className="focus:outline-none">
+        <ElipsisIcon className="size-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>View</DropdownMenuItem>
