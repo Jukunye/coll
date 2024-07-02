@@ -67,7 +67,7 @@ const ProjectCard: React.FC<Props> = ({
         </p>
         <div className="flex items-center">
           <p className="text-xs text-slate-400">{formatDate(start)}</p>
-          <ProjectCardMenu />
+          <ProjectCardMenu title={title} ownerId={owner._id} projectId={_id} />
         </div>
       </div>
       <img
