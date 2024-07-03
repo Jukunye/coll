@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import ProjectCardMenu from './projectCardMenu';
-import { MembersIcon } from './icons';
+import { ArrowIcon, MembersIcon } from './icons';
 import axios from 'axios';
 import { useAuth } from '@/app/provider';
 import JoinButton from './joinButton';
@@ -85,7 +85,22 @@ const ProjectCard: React.FC<Props> = ({
           {language && <p className="text-slate-600">{language}</p>}
         </div>
         <h2 className="text-lg font-semibold">{title}</h2>
-        <p className="mt-2 text-slate-500">{description}</p>
+        <p className="mt-2 text-slate-500">
+          {description.length > 20 ? (
+            <>
+              {`${description.substring(0, 140)}...`}
+              <a
+                href={`/project/${_id}`}
+                className="font-medium ml-4 text-slate-600 inline-flex items-center"
+              >
+                Read more
+                <ArrowIcon />
+              </a>
+            </>
+          ) : (
+            description
+          )}
+        </p>
       </div>
       <div className="flex items-center justify-between px-6 pb-4">
         <div className="flex items-center">

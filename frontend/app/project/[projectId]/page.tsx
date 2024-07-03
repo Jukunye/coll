@@ -57,7 +57,7 @@ function ProjectDetailPage({ params }: { params: { projectId: string } }) {
       ) : data ? (
         <ProjectDetail {...data} />
       ) : (
-        <p>No project data found.</p>
+        <p className="text-sm text-slate-600">No project data found.</p>
       )}
     </main>
   );

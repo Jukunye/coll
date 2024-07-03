@@ -21,6 +21,7 @@ import {
 } from './ui/dialog';
 import axios from 'axios';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 type DeleteProjectProps = {
   title: string;
@@ -49,7 +50,7 @@ function DeleteProject({ projectId, title, onClose }: DeleteProjectProps) {
 
   return (
     <Dialog onOpenChange={(open) => !open && onClose()}>
-      <DialogTrigger className="w-full">Delete</DialogTrigger>
+      <DialogTrigger className="w-full text-left">Delete</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Confirm Project Deletion</DialogTitle>
@@ -96,18 +97,22 @@ function ProjectCardMenu({ projectId, title, ownerId }: ProjectCardMenuProps) {
   return (
     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger className="focus:outline-none" asChild>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" className="focus:outline-none">
           <ElipsisIcon className="size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <button className="w-full">View</button>
+          <Link href={`/project/${projectId}`} className="w-full text-left">
+            View
+          </Link>
         </DropdownMenuItem>
         {isOwner && (
           <>
             <DropdownMenuItem>
-              <button className="w-full">Edit</button>
+              <Link href={`/project/${projectId}`} className="w-full text-left">
+                Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <DeleteProject

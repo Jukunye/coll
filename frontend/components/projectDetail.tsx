@@ -42,14 +42,36 @@ const ProjectDetail: React.FC<Props> = ({
   };
 
   return (
-    <div>
-      <p>{owner.email}</p>
-      <p>{formatDate(start)}</p>
-      <p>{image}</p>
-      <p>{title}</p>
-      <p>{description}</p>
-      <p>{level}</p>
-      <p>{language}</p>
+    <div className="w-full mt-3 md:mt-6 px-5 sm:px-10">
+      <div className="w-full md:flex gap-4">
+        <div className="flex-1">
+          <div className="mt-10">
+            <p className="font-medium">
+              {owner.firstName} {owner.lastName}{' '}
+            </p>
+            <p className="text-xs text-slate-500">{formatDate(start)}</p>
+          </div>
+          <h1 className="mt-3 text-3xl font-bold md:mt-6 lg:text-4xl">
+            {title}
+          </h1>
+          <div className="flex my-4 justify-between text-xs max-w-sm sm:text-sm lg:mt-10">
+            {level && (
+              <p className="bg-slate-50 text-slate-600 py-1 px-3 rounded-full">
+                {level}
+              </p>
+            )}
+            {language && <p className="text-slate-600">{language}</p>}
+          </div>
+        </div>
+        <div className="flex-1">
+          <img
+            src={image}
+            alt="Project image"
+            className="w-full mx-auto sm:w-10/12 lg:w-full object-cover max-h-60 sm:max-h-80 md:max-h-96 lg:max-h-[400px]"
+          />
+        </div>
+      </div>
+      <p className="mt-4">{description}</p>
     </div>
   );
 };
