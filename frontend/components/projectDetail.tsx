@@ -1,5 +1,6 @@
 import { Project } from '@/types';
 import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const ProjectDetail: React.FC<Project> = ({
   owner,
@@ -20,19 +21,27 @@ const ProjectDetail: React.FC<Project> = ({
   };
 
   return (
-    <div className="w-full mt-3 md:mt-6 px-5 sm:px-10">
-      <div className="w-full md:flex gap-4">
+    <div className="max-w-screen-md mx-auto mt-3 sm:px-9 md:px-0 md:mt-6">
+      <div className="flex flex-col">
         <div className="flex-1">
-          <div className="mt-10">
-            <p className="font-medium">
-              {owner.firstName} {owner.lastName}{' '}
-            </p>
-            <p className="text-xs text-slate-500">{formatDate(start)}</p>
+          <div className="flex mt-10">
+            <Avatar>
+              <AvatarImage src={owner.image} alt="profile" />
+              <AvatarFallback>
+                {owner.firstName[0]} {owner.lastName[0]}{' '}
+              </AvatarFallback>
+            </Avatar>
+            <div className="ml-2">
+              <p className="font-medium">
+                {owner.firstName} {owner.lastName}{' '}
+              </p>
+              <p className="text-xs text-slate-500">{formatDate(start)}</p>
+            </div>
           </div>
           <h1 className="mt-3 text-3xl font-bold md:mt-6 lg:text-4xl">
             {title}
           </h1>
-          <div className="flex my-4 justify-between text-xs max-w-sm sm:text-sm lg:mt-10">
+          <div className="flex my-4 gap-10 text-xs max-w-sm sm:text-sm lg:mt-10">
             {level && (
               <p className="bg-slate-50 text-slate-600 py-1 px-3 rounded-full">
                 {level}
@@ -41,7 +50,7 @@ const ProjectDetail: React.FC<Project> = ({
             {language && <p className="text-slate-600">{language}</p>}
           </div>
         </div>
-        <div className="flex-1">
+        <div>
           <img
             src={image}
             alt="Project image"

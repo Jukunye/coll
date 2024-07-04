@@ -45,7 +45,9 @@ export default function Home() {
           projects and solve challenging problems
         </p>
       </div>
-      <SuggestButton onProjectAdded={addProjectToState} />
+      <div className="w-full text-right mb-3 px-8">
+        <SuggestButton onProjectAdded={addProjectToState} />
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (

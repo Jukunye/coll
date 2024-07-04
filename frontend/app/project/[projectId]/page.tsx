@@ -29,7 +29,7 @@ function ProjectDetailPage({ params }: { params: { projectId: string } }) {
   }, [params.projectId]);
 
   return (
-    <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center py-6">
+    <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center px-4 pb-6">
       <AppBar />
       {loading ? (
         <p>Loading...</p>
@@ -38,7 +38,7 @@ function ProjectDetailPage({ params }: { params: { projectId: string } }) {
       ) : (
         <p className="text-sm text-slate-600">No project data found.</p>
       )}
-      <div className="flex-grow"></div>
+      <div className="flex-grow mb-12"></div>
       <Footer />
     </main>
   );
