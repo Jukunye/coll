@@ -16,7 +16,15 @@ export class UsersService {
   }
 
   // READ
-  async findOne(email: string): Promise<UserDocument> {
+  async findOne(id: string): Promise<UserDocument> {
+    const user = this.userModel.findById(id).select('-password').exec();
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<UserDocument> {
     const user = this.userModel.findOne({ email }).exec();
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
@@ -29,23 +37,24 @@ export class UsersService {
   }
 
   // UPDATE
-  async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.userModel
-      .findOneAndUpdate({ email }, updateUserDto, { new: true })
+      .findByIdAndUpdate(id, updateUserDto, { new: true })
+      .select('-password')
       .exec();
 
     if (!user) {
-      throw new NotFoundException(`User with email ${email} not found`);
+      throw new NotFoundException(`User with id ${id} not found`);
     }
 
     return user;
   }
 
   // DELETE
-  async delete(email: string): Promise<void> {
-    const result = await this.userModel.deleteOne({ email }).exec();
-    if (result.deletedCount === 0) {
-      throw new NotFoundException(`User with email ${email} not found`);
+  async delete(id: string): Promise<void> {
+    const result = await this.userModel.findByIdAndDelete(id).exec();
+    if (!result) {
+      throw new NotFoundException(`User with id ${id} not found`);
     }
   }
 }

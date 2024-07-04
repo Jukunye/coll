@@ -5,6 +5,15 @@ export class UpdateUserDto {
   firstName?: string;
 
   @IsString()
+  headline?: string;
+
+  @IsString()
+  bio?: string;
+
+  @IsString()
+  image?: string;
+
+  @IsString()
   lastName?: string;
 
   @IsEmail()

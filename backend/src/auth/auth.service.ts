@@ -21,7 +21,7 @@ export class AuthService {
   async signIn(
     signInDto: SignInDto
   ): Promise<{ access_token: string; user: User }> {
-    const user = await this.usersService.findOne(signInDto.email);
+    const user = await this.usersService.findByEmail(signInDto.email);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -54,15 +54,15 @@ export class AuthService {
     return await this.usersService.findAll();
   }
 
-  async findOne(email: string): Promise<User> {
-    return await this.usersService.findOne(email);
+  async findOne(id: string): Promise<User> {
+    return await this.usersService.findOne(id);
   }
 
-  async update(email: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return await this.usersService.update(email, updateUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return await this.usersService.update(id, updateUserDto);
   }
 
-  async delete(email: string): Promise<void> {
-    return await this.usersService.delete(email);
+  async delete(id: string): Promise<void> {
+    return await this.usersService.delete(id);
   }
 }

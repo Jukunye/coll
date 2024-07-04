@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Patch,
   Post,
   Request
@@ -33,9 +34,10 @@ export class AuthController {
     return this.authService.signIn(signInDto);
   }
 
-  @Get('profile')
-  getProfile(@Request() req) {
-    return this.authService.findOne(req.user.email);
+  @SkipAuth()
+  @Get('profile/:id')
+  getProfile(@Param('id') id: string) {
+    return this.authService.findOne(id);
   }
 
   @Get('users')
@@ -43,13 +45,13 @@ export class AuthController {
     return this.authService.findAll();
   }
 
-  @Patch('profile')
-  updateProfile(@Request() req, @Body() updateUserDto: UpdateUserDto) {
-    return this.authService.update(req.user.email, updateUserDto);
+  @Patch('profile/:id')
+  updateProfile(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.authService.update(id, updateUserDto);
   }
 
-  @Delete('profile')
-  deleteProfile(@Request() req) {
-    return this.authService.delete(req.user.email);
+  @Delete('profile/:id')
+  deleteProfile(@Param('id') id: string) {
+    return this.authService.delete(id);
   }
 }
