@@ -34,6 +34,11 @@ export class AuthController {
     return this.authService.signIn(signInDto);
   }
 
+  @Get('profile')
+  findProfile(@Request() req) {
+    return this.authService.findByEmail(req.user.email);
+  }
+
   @SkipAuth()
   @Get('profile/:id')
   getProfile(@Param('id') id: string) {

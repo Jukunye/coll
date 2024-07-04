@@ -58,6 +58,10 @@ export class AuthService {
     return await this.usersService.findOne(id);
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return await this.usersService.findByEmail(email);
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return await this.usersService.update(id, updateUserDto);
   }
