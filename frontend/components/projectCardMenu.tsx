@@ -21,7 +21,6 @@ import {
 } from './ui/dialog';
 import axios from 'axios';
 import { toast } from 'sonner';
-import Link from 'next/link';
 
 type DeleteProjectProps = {
   title: string;
@@ -103,16 +102,16 @@ function ProjectCardMenu({ projectId, title, ownerId }: ProjectCardMenuProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <Link href={`/project/${projectId}`} className="w-full text-left">
+          <a href={`/project/${projectId}`} className="w-full text-left">
             View
-          </Link>
+          </a>
         </DropdownMenuItem>
         {isOwner && (
           <>
             <DropdownMenuItem>
-              <Link href={`/project/${projectId}`} className="w-full text-left">
+              <a href={`/project/${projectId}`} className="w-full text-left">
                 Edit
-              </Link>
+              </a>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <DeleteProject
