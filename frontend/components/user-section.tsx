@@ -19,13 +19,18 @@ function UserSection() {
     <div>
       {user ? (
         <div className="flex items-center gap-3">
-          <div>
-            {user.firstName} {user.lastName}
+          <div className="flex flex-col">
+            <p>
+              {user.firstName} {user.lastName}
+            </p>
+            <p className="hidden text-xs text-slate-400 sm:block">
+              {user.headline}{' '}
+            </p>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">
               <Avatar>
-                {/* <AvatarImage src="https://github.com/shadcn.png" alt="profile" /> */}
+                <AvatarImage src={user.image} alt="profile" />
                 <AvatarFallback>
                   {user.firstName[0]} {user.lastName[0]}{' '}
                 </AvatarFallback>
