@@ -36,7 +36,7 @@ function UserSection() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <a
-                  href="/profile"
+                  href={`/profile/${user._id}`}
                   className="w-full text-left flex items-center gap-1"
                 >
                   <UserIcon />

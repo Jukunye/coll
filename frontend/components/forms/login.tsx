@@ -2,7 +2,7 @@
 import { useAuth } from '@/app/provider';
 import axiosClient from '@/axios-client';
 import { Button } from '@/components/ui/button';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Toaster, toast } from 'sonner';
@@ -31,9 +31,12 @@ function SignIn() {
       password: data.password,
     };
     try {
-      const response = await axiosClient.post('/auth/login', user_data);
+      const response = await axios.post(
+        'http://localhost:3001/auth/login',
+        user_data
+      );
       localStorage.setItem('ACCESS_TOKEN', response.data.access_token);
-      await updateUser(response.data.access_token);
+      await updateUser(response.data.user, response.data.access_token);
 
       toast('Login Success!');
 

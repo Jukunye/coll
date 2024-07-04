@@ -1,5 +1,6 @@
 'use client';
-import axiosClient from '@/axios-client';
+import { Person } from '@/types';
+import axios from 'axios';
 import React, {
   createContext,
   useState,
@@ -9,11 +10,10 @@ import React, {
 } from 'react';
 
 interface AuthContextType {
-  updateUser: (access_token: string) => Promise<void>;
+  updateUser: (user: Person, access_token: string) => Promise<void>;
   token: string | null;
   logout: () => void;
-  user: any;
-  email: string;
+  user: Person | null;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,9 +23,8 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<Person | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [email, setEmail] = useState<string>('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -36,20 +35,30 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const updateUser = async (access_token: string) => {
+  const updateUser = async (user: Person, access_token: string) => {
     setToken(access_token);
-    try {
-      const res = await axiosClient.get('/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(res.data);
-      setEmail(res.data.email);
-    } catch (error: any) {
-      console.error('Error updating user', error);
-    }
+    setUser(user);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        if (!token) {
+          return;
+        }
+
+        const response = await axios.get(`http://localhost:3001/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (e) {
+        console.error('Error fetching user', e);
+      }
+    };
+    if (token) fetchUser();
+  }, [token, user]);
 
   const logout = () => {
     setUser(null);
@@ -60,27 +69,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        if (!token) {
-          return;
-        }
-
-        const response = await axiosClient.get('/auth/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data);
-        setEmail(response.data.email);
-      } catch (e) {
-        console.error('Error fetching user', e);
-      }
-    };
-    if (token) fetchUser();
-  }, [token]);
-
   return (
     <AuthContext.Provider
       value={{
@@ -88,7 +76,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         token,
         logout,
         user,
-        email,
       }}
     >
       {children}

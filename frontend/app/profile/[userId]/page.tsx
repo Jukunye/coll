@@ -1,26 +1,21 @@
 'use client';
-import { useAuth } from '@/app/provider';
 import AppBar from '@/components/AppBar';
 import Footer from '@/components/footer';
 import { Person } from '@/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-function ProfilePage() {
+function ProfilePage({ params }: { params: { userId: string } }) {
   const [data, setData] = useState<Person | null>(null);
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3001/auth/profile`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:3001/auth/profile/${params.userId}`
+        );
         setData(response.data);
       } catch (error) {
         console.error('Error occurred fetching profile data: ', error);
@@ -30,7 +25,7 @@ function ProfilePage() {
     };
 
     fetchData();
-  }, [token]);
+  }, [params.userId]);
 
   return (
     <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center py-6">
