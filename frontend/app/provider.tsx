@@ -56,6 +56,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('ACCESS_TOKEN');
+      window.location.reload(); // Trigger a full page refresh
     }
   };
 
