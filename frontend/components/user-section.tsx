@@ -2,6 +2,16 @@ import { useAuth } from '@/app/provider';
 import React from 'react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { ArrowRightIcon, UserIcon } from './icons';
 
 function UserSection() {
   const { user, logout } = useAuth();
@@ -12,9 +22,37 @@ function UserSection() {
           <div>
             {user.firstName} {user.lastName}
           </div>
-          <Button onClick={() => logout()} variant="outline">
-            Log out
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none">
+              <Avatar>
+                {/* <AvatarImage src="https://github.com/shadcn.png" alt="profile" /> */}
+                <AvatarFallback>
+                  {user.firstName[0]} {user.lastName[0]}{' '}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <a
+                  href="/profile"
+                  className="w-full text-left flex items-center gap-1"
+                >
+                  <UserIcon />
+                  Profile
+                </a>{' '}
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <button
+                  onClick={() => logout()}
+                  className="w-full text-left flex items-center gap-1"
+                >
+                  <ArrowRightIcon /> Log out
+                </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ) : (
         <div className="flex gap-3 ">

@@ -55,7 +55,7 @@ export default function Home() {
   };
 
   return (
-    <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center py-6">
+    <main className="max-w-screen-xl mx-auto flex min-h-screen flex-col items-center pb-6">
       <AppBar />
       <div className="w-full max-w-screen-lg mx-auto text-center px-4">
         <h1 className="font-bold mt-4 text-slate-700 text-3xl lg:text-4xl">
