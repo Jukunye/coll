@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAuth } from './provider';
 import ProjectCard from '@/components/project-card';
+import Footer from '@/components/footer';
 
 interface Person {
   _id: string;
@@ -78,6 +79,8 @@ export default function Home() {
           ))}
         </div>
       )}
+      <div className="flex-grow"></div>
+      <Footer />
     </main>
   );
 }

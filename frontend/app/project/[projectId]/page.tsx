@@ -1,5 +1,6 @@
 'use client';
 import AppBar from '@/components/AppBar';
+import Footer from '@/components/footer';
 import ProjectDetail from '@/components/projectDetail';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -59,6 +60,8 @@ function ProjectDetailPage({ params }: { params: { projectId: string } }) {
       ) : (
         <p className="text-sm text-slate-600">No project data found.</p>
       )}
+      <div className="flex-grow"></div>
+      <Footer />
     </main>
   );
 }
