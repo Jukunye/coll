@@ -4,9 +4,13 @@ import Link from 'next/link';
 
 function AppBar() {
   return (
-    <div className="w-full flex items-center justify-between px-4 sm:px-8">
+    <div className="w-full flex items-center justify-between px-4 sm:px-8 border-b border-dashed">
       <Link href="/">
-        <img src="/coll.svg" alt="logo" className="w-20 h-10" />
+        <img
+          src="/coll.svg"
+          alt="logo"
+          className="w-20 h-12 hover:drop-shadow-md"
+        />
       </Link>
       <UserSection />{' '}
     </div>
