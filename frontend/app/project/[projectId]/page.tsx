@@ -2,31 +2,9 @@
 import AppBar from '@/components/AppBar';
 import Footer from '@/components/footer';
 import ProjectDetail from '@/components/projectDetail';
+import { Project } from '@/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
-interface Person {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  owner: Person;
-  members: Person[];
-  level: string;
-  language: string;
-  image: string;
-  start: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
 
 function ProjectDetailPage({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<Project | null>(null);

@@ -13,6 +13,7 @@ import {
 import { Button } from '../ui/button';
 import { useAuth } from '@/app/provider';
 import { Toaster, toast } from 'sonner';
+import { Project } from '@/types';
 
 type FormValues = {
   title: string;
@@ -22,29 +23,6 @@ type FormValues = {
   image?: string;
   start: Date;
 };
-
-interface Person {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  owner: Person;
-  members: Person[];
-  level: string;
-  language: string;
-  image: string;
-  start: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
 
 interface ParentProps {
   closeDialog: (open: boolean) => void;

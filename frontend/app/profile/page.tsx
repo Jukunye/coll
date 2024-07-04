@@ -2,16 +2,9 @@
 import { useAuth } from '@/app/provider';
 import AppBar from '@/components/AppBar';
 import Footer from '@/components/footer';
+import { Person } from '@/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
-interface Person {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-}
 
 function ProfilePage() {
   const [data, setData] = useState<Person | null>(null);

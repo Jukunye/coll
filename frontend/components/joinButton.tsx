@@ -14,14 +14,7 @@ import ProtectRoute from '@/app/protectRoute';
 import { useAuth } from '@/app/provider';
 import axios from 'axios';
 import { Toaster, toast } from 'sonner';
-
-type Person = {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-};
+import { Person } from '@/types';
 
 type JoinButtonProps = {
   title: string;

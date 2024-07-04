@@ -6,29 +6,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from './provider';
 import ProjectCard from '@/components/project-card';
 import Footer from '@/components/footer';
-
-interface Person {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  owner: Person;
-  members: Person[];
-  level: string;
-  language: string;
-  image: string;
-  start: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import { Project } from '@/types';
 
 export default function Home() {
   const [data, setData] = useState<Project[]>([]);

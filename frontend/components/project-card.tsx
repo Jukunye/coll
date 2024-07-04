@@ -5,31 +5,9 @@ import { ArrowIcon, MembersIcon } from './icons';
 import axios from 'axios';
 import { useAuth } from '@/app/provider';
 import JoinButton from './joinButton';
+import { Person, Project } from '@/types';
 
-type Person = {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-};
-
-type Props = {
-  _id: string;
-  title: string;
-  description: string;
-  owner: Person;
-  members: Person[];
-  level?: string;
-  language?: string;
-  image: string;
-  start: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-};
-
-const ProjectCard: React.FC<Props> = ({
+const ProjectCard: React.FC<Project> = ({
   _id,
   owner,
   start,

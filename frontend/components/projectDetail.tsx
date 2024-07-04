@@ -1,29 +1,7 @@
+import { Project } from '@/types';
 import React from 'react';
 
-type Person = {
-  _id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  __v: number;
-};
-
-type Props = {
-  _id: string;
-  title: string;
-  description: string;
-  owner: Person;
-  members: Person[];
-  level?: string;
-  language?: string;
-  image: string;
-  start: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-};
-
-const ProjectDetail: React.FC<Props> = ({
+const ProjectDetail: React.FC<Project> = ({
   owner,
   start,
   image,
