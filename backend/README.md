@@ -5,26 +5,15 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Coll Backend API
 
-## Description
+Coll is a collaboration platform where users can suggest projects they want to work on, and other users can join them. The backend API is built using NestJS and MongoDB and is responsible for handling the data and business logic of the platform.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Prerequisites:**
+
+- Node.js and npm installed
+- MongoDB installed
+- Environment variables configured (e.g., JWT secret, MongoDB URL)
 
 ## Installation
 
@@ -58,16 +47,429 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Configure environment variables
+
+Create a `.env` file in the root of the backend folder and add the following variables:
+
+```plaintext
+MONGODB_URL=<your-mongodb-connection-string>
+JWT_SECRET=<your-jwt-secret>
+```
+
+## Authentication
+
+Authentication is required for most endpoints. The backend uses JWT for authentication. Clients will start by authenticating with a username and password. Once authenticated, the server will issue a JWT that can be sent as a bearer token in the authorization header on subsequent requests.
+
+**Public Endpoints (No Authentication Required):**
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `GET /auth/profile/:id`
+- `GET /project`
+- `GET /project/:id`
+
+## Endpoints
+
+### Auth Endpoints
+
+#### Register a New User
+
+- **URL:** `POST /auth/register`
+- **Body Parameters:**
+  ```json
+  {
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  }
+  ```
+
+#### Login
+
+- **URL:** `POST /auth/login`
+- **Body Parameters:**
+  ```json
+  {
+    "email": "string",
+    "password": "string"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "access_token": "string",
+    "user": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    }
+  }
+  ```
+
+#### Get User Profile
+
+- **URL:** `GET /auth/profile`
+- **Headers:**
+  - `Authorization: Bearer <JWT>`
+- **Response:**
+  ```json
+  {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  }
+  ```
+
+#### Update User Profile
+
+- **URL:** `PATCH /auth/profile`
+- **Headers:**
+  - `Authorization: Bearer <JWT>`
+- **Body Parameters:**
+  ```json
+  {
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "password": "string"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  }
+  ```
+
+#### Delete User Profile
+
+- **URL:** `DELETE /auth/profile`
+- **Headers:**
+  - `Authorization: Bearer <JWT>`
+- **Response:**
+  ```json
+  {
+    "message": "User deleted successfully"
+  }
+  ```
+
+### Project Endpoints
+
+#### Create a New Project
+
+- **URL:** `POST /project`
+- **Body Parameters:**
+  ```json
+  {
+    "title": "string",
+    "description": "string",
+    "owner": "string",
+    "members": ["string"],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string"
+  }
+  ```
+- **Response:**
+<details>
+<summary>resopnse</summary>
+<pre><code>
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "owner": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    },
+    "members": [
+      {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      }
+    ],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  </code></pre>
+</details>
+
+#### Get All Projects
+
+- **URL:** `GET /project`
+- **Response:**
+<details>
+<summary>response</summary>
+<pre><code>
+  [
+    {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "owner": {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      },
+      "members": [
+        {
+          "id": "string",
+          "firstName": "string",
+          "lastName": "string",
+          "email": "string"
+        }
+      ],
+      "level": "string",
+      "language": "string",
+      "image": "string",
+      "start": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ]
+  </code></pre>
+</details>
+
+#### Get a Project by ID
+
+- **URL:** `GET /project/:id`
+- **Response:**
+<details>
+<summary>response</summary>
+<pre><code>
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "owner": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    },
+    "members": [
+      {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      }
+    ],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  </code></pre>
+</details>
+
+#### Update a Project
+
+- **URL:** `PUT /project/:id`
+- **Body Parameters:**
+  ```json
+  {
+    "title": "string",
+    "description": "string",
+    "owner": "string",
+    "members": ["string"],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string"
+  }
+  ```
+- **Response:**
+<details>
+<summary>response</summary>
+<pre><code>
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "owner": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    },
+    "members": [
+      {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      }
+    ],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  </code></pre>
+</details>
+
+#### Delete a Project
+
+- **URL:** `DELETE /project/:id`
+- **Response:**
+  ```json
+  {
+    "message": "Project deleted successfully"
+  }
+  ```
+
+#### Add a Member to a Project
+
+- **URL:** `PATCH /project/:projectId/add-member/:userId`
+- **Response:**
+<details>
+<summary>response</summary>
+<pre><code>
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "owner": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    },
+    "members": [
+      {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      }
+    ],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  </code></pre>
+</details>
+
+#### Remove a Member from a Project
+
+- **URL:** `PATCH /project/:projectId/remove-member/:userId`
+- **Response:**
+<details>
+<summary>response</summary>
+<pre><code>
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "owner": {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    },
+    "members": [
+      {
+        "id": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string"
+      }
+    ],
+    "level": "string",
+    "language": "string",
+    "image": "string",
+    "start": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  </code></pre>
+</details>
+
+## Data Models
+
+### User
+
+```json
+{
+  "id": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "email": "string",
+  "password": "string",
+  "createdAt": "string",
+  "updatedAt": "string"
+}
+```
+
+### Project
+
+<details>
+  <summary>Project</summary>
+  <pre><code>
+{
+  "id": "string",
+  "title": "string",
+  "description": "string",
+  "owner": {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  },
+  "members": [
+    {
+      "id": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string"
+    }
+  ],
+  "level": "string",
+  "language": "string",
+  "image": "string",
+  "start": "string",
+  "createdAt": "string",
+  "updatedAt": "string"
+}
+  </code></pre>
+</details>
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Author - [Jukunye Shira](https://jukunyes.vercel.app/)
+- Linkedin - [Jukunye](www.linkedin.com/in/jukunye)
