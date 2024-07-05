@@ -13,7 +13,6 @@ import {
 import { Button } from '../ui/button';
 import { useAuth } from '@/app/provider';
 import { Toaster, toast } from 'sonner';
-import { Project } from '@/types';
 
 type FormValues = {
   title: string;
@@ -26,10 +25,9 @@ type FormValues = {
 
 interface ParentProps {
   closeDialog: (open: boolean) => void;
-  onProjectAdded: (newProject: Project) => void;
 }
 
-const SuggetForm: React.FC<ParentProps> = ({ closeDialog, onProjectAdded }) => {
+const EditProject: React.FC<ParentProps> = ({ closeDialog }) => {
   const [level, setLevel] = useState<string>('');
   const [language, setLanguage] = useState<string>('');
   const { user, token } = useAuth();
@@ -48,28 +46,20 @@ const SuggetForm: React.FC<ParentProps> = ({ closeDialog, onProjectAdded }) => {
       ...data,
       level,
       language,
-      owner: user?._id,
-      members: [user?._id],
     };
-    try {
-      const response = await axios.post(
-        'http://localhost:3001/project',
-        projectData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const newProject = response.data;
-      toast('Successfully created!');
-      closeDialog(false);
-      onProjectAdded(newProject);
-    } catch (error) {
-      toast('Failed to create!');
-      console.error('Error:', error);
-    }
+    // try {
+    //   await axios.post('http://localhost:3001/project', projectData, {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   });
+    //   toast('Successfully created!');
+    //   closeDialog(false);
+    // } catch (error) {
+    //   toast('Failed to create!');
+    //   console.error('Error:', error);
+    // }
   };
 
   return (
@@ -177,10 +167,10 @@ const SuggetForm: React.FC<ParentProps> = ({ closeDialog, onProjectAdded }) => {
         />
       </div>
       <div className="flex-1 mt-4 flex justify-end">
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </div>
     </form>
   );
 };
 
-export default SuggetForm;
+export default EditProject;

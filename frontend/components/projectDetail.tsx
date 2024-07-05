@@ -1,6 +1,8 @@
 import { Project } from '@/types';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import EditProjectButton from './EditProjectButton';
+import { useAuth } from '@/app/provider';
 
 const ProjectDetail: React.FC<Project> = ({
   owner,
@@ -11,6 +13,7 @@ const ProjectDetail: React.FC<Project> = ({
   level,
   language,
 }) => {
+  const { user } = useAuth();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -59,6 +62,9 @@ const ProjectDetail: React.FC<Project> = ({
         </div>
       </div>
       <p className="mt-4">{description}</p>
+      <div className="w-full text-right">
+        {user?._id === owner._id && <EditProjectButton />}
+      </div>
     </div>
   );
 };
