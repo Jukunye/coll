@@ -472,4 +472,4 @@ Authentication is required for most endpoints. The backend uses JWT for authenti
 ## Stay in touch
 
 - Author - [Jukunye Shira](https://jukunyes.vercel.app/)
-- Linkedin - [Jukunye](www.linkedin.com/in/jukunye)
+- Linkedin - [Jukunye](https://www.linkedin.com/in/jukunye)
