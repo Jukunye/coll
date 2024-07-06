@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Notification } from './schemas/notification.schema';
 import { Model } from 'mongoose';
@@ -27,5 +27,18 @@ export class NotificationService {
       .findOne({ user: userId })
       .sort({ createdAt: -1 })
       .exec();
+  }
+
+  // Mark notification as read
+  async markAsRead(notificationId: string) {
+    const updatedNotification = await this.notificationModel
+      .findByIdAndUpdate(notificationId, { read: true })
+      .exec();
+    if (!updatedNotification) {
+      throw new NotFoundException(
+        `Notification with id ${notificationId} not found`
+      );
+    }
+    return updatedNotification;
   }
 }
