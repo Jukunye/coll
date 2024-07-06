@@ -94,7 +94,19 @@ export class ProjectService {
       );
     }
     project.members.push(userObjectId);
-    return project.save();
+    const savedProject = project.save();
+
+    // send notifications to all members
+    for (const member of project.members) {
+      const notificationData: CreateNotificationDto = {
+        user: new Types.ObjectId(member._id),
+        type: 'new_member',
+        message: 'New member has joined the project!',
+        link: `/project/${projectId}`
+      };
+      await this.notificationService.createNotification(notificationData);
+    }
+    return savedProject;
   }
 
   // Remove member from project
