@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { config } from 'dotenv';
 import { ProjectModule } from './project/project.module';
 import { CommentModule } from './comment/comment.module';
+import { NotificationModule } from './notification/notification.module';
 
 config();
 
@@ -16,7 +17,8 @@ config();
     UsersModule,
     MongooseModule.forRoot(process.env.MONGODB_URL),
     ProjectModule,
-    CommentModule
+    CommentModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService]
