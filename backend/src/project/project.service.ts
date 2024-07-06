@@ -8,19 +8,34 @@ import { Project } from './schemas/project.schema';
 import { Model, Schema, Types } from 'mongoose';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { NotificationService } from 'src/notification/notification.service';
+import { CreateNotificationDto } from 'src/notification/dto/create-notification.dto';
 
 @Injectable()
 export class ProjectService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<Project>
+    @InjectModel(Project.name) private projectModel: Model<Project>,
+    private notificationService: NotificationService
   ) {}
 
   // CREATE
   async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
     const createdProject = new this.projectModel(createProjectDto);
     const savedProject = createdProject.save();
+    const projectId = (await savedProject)._id;
+
+    // create a notification for the user
+    const ownerId = (await savedProject).owner._id;
+    const user = new Types.ObjectId(ownerId);
+    const notificationData: CreateNotificationDto = {
+      user: user,
+      type: 'new_project',
+      message: 'Project Created!',
+      link: `/project/${projectId}`
+    };
+    this.notificationService.createNotification(notificationData);
     return this.projectModel
-      .findById((await savedProject)._id)
+      .findById(projectId)
       .populate('owner', '-password')
       .populate('members', '-password')
       .exec();
