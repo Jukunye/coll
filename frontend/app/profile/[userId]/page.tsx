@@ -10,12 +10,11 @@ import { Toaster } from 'sonner';
 
 function ProfilePage({ params }: { params: { userId: string } }) {
   const [data, setData] = useState<Person | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const response = await axios.get(
           `http://localhost:3001/auth/profile/${params.userId}`
@@ -37,7 +36,7 @@ function ProfilePage({ params }: { params: { userId: string } }) {
       <AppBar />
       {loading ? (
         <p>Loading...</p>
-      ) : (
+      ) : data ? (
         <div className="flex flex-col justify-center text-center mt-10">
           <img
             src={user?.image}
@@ -53,6 +52,8 @@ function ProfilePage({ params }: { params: { userId: string } }) {
             <p className="max-w-md text-balance text-slate-700">{user?.bio} </p>
           </div>
         </div>
+      ) : (
+        <div className="text-sm text-slate-500">No User</div>
       )}
       <div className="flex-grow"></div>
       {user?._id === params.userId && <EditProfileButton />}

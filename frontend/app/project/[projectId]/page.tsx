@@ -8,12 +8,11 @@ import React, { useEffect, useState } from 'react';
 
 function ProjectDetailPage({ params }: { params: { projectId: string } }) {
   const [data, setData] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
         const response = await axios.get(
           `http://localhost:3001/project/${params.projectId}`
         );
