@@ -20,4 +20,12 @@ export class NotificationService {
     );
     return createdNotification.save();
   }
+
+  // READ
+  async getNotification(userId: string): Promise<Notification> {
+    return await this.notificationModel
+      .findOne({ user: userId })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
 }
