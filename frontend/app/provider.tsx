@@ -58,7 +58,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     };
     if (token) fetchUser();
-  }, [token, user]);
+  }, [token]);
 
   const logout = () => {
     setUser(null);
