@@ -23,14 +23,42 @@ function Notifications() {
     };
     fetchData();
   }, [user, token]);
+
+  const markAsRead = async (id: string) => {
+    await axios.patch(
+      `http://localhost:3001/notification/${id}/mark-as-read`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setNotifications(
+      notifications.map((notif) =>
+        notif._id === id ? { ...notif, read: true } : notif
+      )
+    );
+  };
   return (
     <div>
       {notifications ? (
         <div>
           {notifications.map((notif) => (
-            <div key={notif._id}>
-              <p>{notif.message} </p>{' '}
-            </div>
+            <a
+              href={notif.link}
+              key={notif._id}
+              onClick={() => markAsRead(notif._id)}
+            >
+              <div
+                className={`hover:bg-slate-100 text-sm p-2 mb-[2px] rounded ${
+                  notif.read ? '' : 'bg-slate-50'
+                }`}
+              >
+                <p>{notif.message} </p>{' '}
+              </div>
+            </a>
           ))}
         </div>
       ) : (

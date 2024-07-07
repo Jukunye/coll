@@ -19,7 +19,6 @@ function NotificationCount() {
         }
       );
       setCount(response.data);
-      console.log(response.data);
     };
     fetchData();
   }, [user, token]);
