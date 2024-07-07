@@ -13,6 +13,7 @@ import {
 } from './ui/dropdown-menu';
 import { ArrowRightIcon, BellIcon, UserIcon } from './icons';
 import Notifications from './notification';
+import NotificationCount from './notificationCount';
 
 function UserSection() {
   const { user, logout } = useAuth();
@@ -21,8 +22,9 @@ function UserSection() {
       {user ? (
         <div className="flex items-center gap-7">
           <DropdownMenu>
-            <DropdownMenuTrigger className="focus:outline-none focus:bg-transparent focus:text-inherit hover:bg-slate-100 p-1 rounded-full">
+            <DropdownMenuTrigger className="relative focus:outline-none focus:bg-transparent focus:text-inherit hover:bg-slate-100 p-1 rounded-full">
               <BellIcon />
+              <NotificationCount />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>

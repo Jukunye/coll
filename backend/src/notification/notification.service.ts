@@ -45,4 +45,19 @@ export class NotificationService {
     }
     return updatedNotification;
   }
+
+  async countUnread(userId: string): Promise<number> {
+    try {
+      const unreadCount = await this.notificationModel
+        .countDocuments({ user: userId, read: false })
+        .exec();
+      return unreadCount;
+    } catch (error) {
+      console.error(
+        `Failed to count unread notifications for the user with id ${userId}`,
+        error
+      );
+      return 0;
+    }
+  }
 }
