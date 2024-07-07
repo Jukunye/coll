@@ -11,22 +11,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { ArrowRightIcon, UserIcon } from './icons';
+import { ArrowRightIcon, BellIcon, UserIcon } from './icons';
+import Notifications from './notification';
 
 function UserSection() {
   const { user, logout } = useAuth();
   return (
     <div>
       {user ? (
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col">
-            <p>
-              {user.firstName} {user.lastName}
-            </p>
-            <p className="hidden text-xs text-slate-400 sm:block">
-              {user.headline}{' '}
-            </p>
-          </div>
+        <div className="flex items-center gap-7">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none focus:bg-transparent focus:text-inherit hover:bg-slate-100 p-1 rounded-full">
+              <BellIcon />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80">
+              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Notifications />
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">
               <Avatar>

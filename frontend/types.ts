@@ -25,3 +25,13 @@ export interface Project {
   updatedAt: string;
   __v: number;
 }
+
+export interface NotificationType {
+  _id: string;
+  user: string;
+  type: string;
+  message: string;
+  link: string;
+  read: boolean;
+  createdAt: string;
+}

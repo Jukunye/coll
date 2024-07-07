@@ -23,8 +23,12 @@ export class NotificationService {
 
   // READ
   async getNotification(userId: string): Promise<Notification> {
+    return await this.notificationModel.findOne({ user: userId }).exec();
+  }
+
+  async getAllNotifications(userId: string): Promise<Notification[]> {
     return await this.notificationModel
-      .findOne({ user: userId })
+      .find({ user: userId })
       .sort({ createdAt: -1 })
       .exec();
   }

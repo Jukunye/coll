@@ -11,6 +11,11 @@ export class NotificationController {
     return this.notificationService.getNotification(id);
   }
 
+  @Get('/user/:id')
+  async getAllNotification(@Param('id') id: string): Promise<Notification[]> {
+    return this.notificationService.getAllNotifications(id);
+  }
+
   @Patch(':id/mark-as-read')
   async markAsRead(@Param('id') id: string): Promise<Notification> {
     return this.notificationService.markAsRead(id);
