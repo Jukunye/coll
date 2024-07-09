@@ -1,8 +1,8 @@
 'use client';
 import { useAuth } from '@/app/provider';
-import AppBar from '@/components/AppBar';
 import EditProfileButton from '@/components/EditProfileButton';
 import Footer from '@/components/footer';
+import AppBar from '@/components/header/AppBar';
 import { Person } from '@/types';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';

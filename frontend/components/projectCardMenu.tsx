@@ -21,6 +21,7 @@ import {
 } from './ui/dialog';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { ShareDialog } from './shareProject';
 
 type DeleteProjectProps = {
   title: string;
@@ -105,6 +106,9 @@ function ProjectCardMenu({ projectId, title, ownerId }: ProjectCardMenuProps) {
           <a href={`/project/${projectId}`} className="w-full text-left">
             View
           </a>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <ShareDialog projectId={projectId} onClose={handleDialogClose} />
         </DropdownMenuItem>
         {isOwner && (
           <>
