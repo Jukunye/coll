@@ -1,5 +1,4 @@
 'use client';
-import AppBar from '@/components/AppBar';
 import SuggestButton from '@/components/suggest-button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { useAuth } from './provider';
 import ProjectCard from '@/components/project-card';
 import Footer from '@/components/footer';
 import { Project } from '@/types';
+import AppBar from '@/components/header/AppBar';
 
 export default function Home() {
   const [data, setData] = useState<Project[]>([]);

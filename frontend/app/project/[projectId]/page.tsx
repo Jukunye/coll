@@ -1,6 +1,6 @@
 'use client';
-import AppBar from '@/components/AppBar';
 import Footer from '@/components/footer';
+import AppBar from '@/components/header/AppBar';
 import ProjectDetail from '@/components/projectDetail';
 import { Project } from '@/types';
 import axios from 'axios';

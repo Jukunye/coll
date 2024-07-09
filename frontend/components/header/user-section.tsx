@@ -1,8 +1,8 @@
 import { useAuth } from '@/app/provider';
 import React from 'react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { ArrowRightIcon, BellIcon, UserIcon } from './icons';
+} from '../ui/dropdown-menu';
+import { ArrowRightIcon, BellIcon, UserIcon } from '../icons';
 import Notifications from './notification';
 import NotificationCount from './notificationCount';
 
