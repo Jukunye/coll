@@ -10,8 +10,9 @@ import {
 import { Button } from './ui/button';
 import ProtectRoute from '@/app/protectRoute';
 import EditProject from './forms/EditProject';
+import { Project } from '@/types';
 
-function EditProjectButton() {
+function EditProjectButton(project: Project) {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -24,7 +25,7 @@ function EditProjectButton() {
             <DialogTitle>Edit your project</DialogTitle>
             <DialogDescription>Update your project details.</DialogDescription>
           </DialogHeader>
-          <EditProject closeDialog={setOpen} />
+          <EditProject closeDialog={setOpen} project={project} />
         </ProtectRoute>
       </DialogContent>
     </Dialog>

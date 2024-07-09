@@ -13,6 +13,7 @@ import {
 import { Button } from '../ui/button';
 import { useAuth } from '@/app/provider';
 import { Toaster, toast } from 'sonner';
+import { Project } from '@/types';
 
 type FormValues = {
   title: string;
@@ -25,21 +26,29 @@ type FormValues = {
 
 interface ParentProps {
   closeDialog: (open: boolean) => void;
+  project: Project;
 }
 
-const EditProject: React.FC<ParentProps> = ({ closeDialog }) => {
-  const [level, setLevel] = useState<string>('');
-  const [language, setLanguage] = useState<string>('');
-  const { user, token } = useAuth();
+const EditProject: React.FC<ParentProps> = ({ closeDialog, project }) => {
+  const { token } = useAuth();
+  const [level, setLevel] = useState<string | undefined>(project.level);
+  const [language, setLanguage] = useState<string | undefined>(
+    project.language
+  );
 
-  const defaultstart = new Date();
+  const defaultstart = new Date(project.start);
   defaultstart.setDate(defaultstart.getDate() + 14);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      title: project.title,
+      description: project.description,
+    },
+  });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const projectData = {
@@ -47,19 +56,23 @@ const EditProject: React.FC<ParentProps> = ({ closeDialog }) => {
       level,
       language,
     };
-    // try {
-    //   await axios.post('http://localhost:3001/project', projectData, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    //   toast('Successfully created!');
-    //   closeDialog(false);
-    // } catch (error) {
-    //   toast('Failed to create!');
-    //   console.error('Error:', error);
-    // }
+    try {
+      await axios.put(
+        `http://localhost:3001/project/${project._id}`,
+        projectData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success('Successfully Updated!');
+      closeDialog(false);
+    } catch (error) {
+      toast.error('Failed to update!');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -148,7 +161,7 @@ const EditProject: React.FC<ParentProps> = ({ closeDialog }) => {
         </label>
         <input
           id="image"
-          defaultValue="https://sgame.etsisi.upm.es/pictures/12946.png?1608547866/"
+          defaultValue={project.image}
           {...register('image')}
           className="text-sm max-w-md border-slate-200 bg-slate-50 rounded-lg p-2 placeholder:text-slate-300 focus:outline-none"
         />
