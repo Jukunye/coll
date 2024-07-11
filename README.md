@@ -1,6 +1,7 @@
 # Coll
 
 Coll is a platform that brings like-minded people together to work on projects. Users can suggest the projects they wish to work on, and others who are interested can join them.
+![Home page](/Screenshots/logged-In.PNG)
 
 ## Table of Contents
 
